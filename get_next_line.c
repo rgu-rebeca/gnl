@@ -1,8 +1,34 @@
 #include "get_next_line.h"
 
-char	*read_and_store(int fd, char *stored)
+static void	*read_and_store_aux(int fd,
+	char **stored, ssize_t byte_read, char **buffer)
 {
 	char	*temp;
+
+	while (!ft_strchr((*stored), '\n') && (byte_read > 0))
+	{
+		byte_read = read (fd, (*buffer), BUFFER_SIZE);
+		if (byte_read < 0)
+			return (free(*buffer), free(*stored), NULL);
+		if (byte_read == 0)
+			break ;
+		(*buffer)[byte_read] = '\0';
+		temp = (*stored);
+		*stored = ft_strjoin(*stored, *buffer);
+		if (!(*stored))
+		{
+			free (*buffer);
+			free (temp);
+			return (NULL);
+		}
+		free(temp);
+	}
+	free(*buffer);
+	return (*stored);
+}
+
+char	*read_and_store(int fd, char *stored)
+{
 	ssize_t	byte_read;
 	char	*buffer;
 
@@ -20,34 +46,11 @@ char	*read_and_store(int fd, char *stored)
 			return (NULL);
 		}
 	}
-	while (!ft_strchr(stored, '\n') && (byte_read > 0))
-	{
-		byte_read = read (fd, buffer, BUFFER_SIZE);
-		if (byte_read < 0)
-		{
-			free(buffer);
-			free(stored);
-			return (NULL);
-		}
-		if (byte_read == 0)
-			break ;
-		buffer[byte_read] = '\0';
-		temp = stored;
-		stored = ft_strjoin(stored, buffer);
-		if (!stored)
-		{
-			free (buffer);
-			free (temp);
-			return (NULL);
-		}
-		free(temp);
-	}
-	free(buffer);
-	if (byte_read == 0 && (!stored || !stored[0]))
-	{
-		free(stored);
+	stored = read_and_store_aux(fd, &stored, byte_read, &buffer);
+	if (!stored)
 		return (NULL);
-	}
+	if (byte_read == 0 && (!stored || !stored[0]))
+		return (free(stored), NULL);
 	return (stored);
 }
 

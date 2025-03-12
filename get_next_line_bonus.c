@@ -66,20 +66,44 @@ static char	*extract_line(char **stored)
 	ft_memcpy(line, *stored, i + ((*stored)[i] == '\n'));
 	line[i + ((*stored)[i] == '\n')] = '\0';
 	if (!(*stored)[i])
+		return (free(*stored), *stored = NULL, line);
+	new_stored = ft_strdup((*stored) + i + 1);
+	if (new_stored)
 	{
 		free(*stored);
-		*stored = NULL;
-	}
-	else
-	{
-		new_stored = ft_strdup((*stored) + i + 1);
-		if (new_stored)
-		{
-			free(*stored);
-			*stored = new_stored;
-		}
+		*stored = new_stored;
 	}
 	return (line);
+}
+
+void	*get_next_line_aux(ssize_t byte_read,
+		char **buffer, t_fd_list **current_fd, int fd)
+{
+	char	*temp;
+
+	while (byte_read > 0)
+	{
+		(*buffer)[byte_read] = '\0';
+		temp = ft_strjoin((*current_fd)-> stored, *buffer);
+		if (!temp)
+		{
+			free(*buffer);
+			*buffer = NULL;
+			if ((*current_fd)-> stored)
+			{
+				free ((*current_fd)-> stored);
+				(*current_fd)-> stored = NULL;
+			}
+			return (NULL);
+		}
+		free((*current_fd)-> stored);
+		(*current_fd)-> stored = temp;
+		if (ft_strchr((*current_fd)-> stored, '\n'))
+			break ;
+		byte_read = read (fd, *buffer, BUFFER_SIZE);
+	}
+	free(*buffer);
+	return (*current_fd);
 }
 
 char	*get_next_line(int fd)
@@ -88,7 +112,6 @@ char	*get_next_line(int fd)
 	t_fd_list			*current_fd;
 	char				*buffer;
 	ssize_t				byte_read;
-	char				*temp;
 
 	if (fd < 0 || fd > 1023 || BUFFER_SIZE <= 0)
 		return (NULL);
@@ -101,76 +124,9 @@ char	*get_next_line(int fd)
 	byte_read = read (fd, buffer, BUFFER_SIZE);
 	if (byte_read < 0 || (byte_read == 0
 			&& (!current_fd -> stored || !current_fd -> stored[0])))
-	{
-		free(buffer);
-		buffer = NULL;
-		remove_node(&fd_list, fd);
-		return (NULL);
-	}
-	while (byte_read > 0)
-	{
-		buffer[byte_read] = '\0';
-		temp = ft_strjoin(current_fd -> stored, buffer);
-		if (!temp)
-		{
-			free(buffer);
-			buffer = NULL;
-			if (current_fd -> stored)
-			{
-				free (current_fd -> stored);
-				current_fd -> stored = NULL;
-			}
-			return (NULL);
-		}
-		free(current_fd -> stored);
-		current_fd -> stored = temp;
-		if (ft_strchr(current_fd -> stored, '\n'))
-			break ;
-		byte_read = read (fd, buffer, BUFFER_SIZE);
-	}
-	free(buffer);
+		return (free(buffer), buffer = NULL, remove_node(&fd_list, fd), NULL);
+	current_fd = get_next_line_aux (byte_read, &buffer, &current_fd, fd);
 	if (!current_fd -> stored || !current_fd -> stored[0])
-	{
-		remove_node(&fd_list, fd);
-		return (NULL);
-	}
+		return (remove_node(&fd_list, fd), NULL);
 	return (extract_line(&current_fd -> stored));
 }
-
-/*
-#include <stdio.h>
-#include <fcntl.h>
-
-int main(void)
-{
-	int fd1 = open("test_gnl.txt", O_RDONLY);
-	//int fd2 = open("test2.txt", O_RDONLY);
-	//int fd3 = open("test3.txt", O_RDONLY);
-    char *line;
-    int i = 1;
-
-   while ((line = get_next_line(fd1)))
-    {
-        printf("Line %d: \"%s\"\n", i, line);
-        free(line);
-        i++;
-    }
-    printf("Final get_next_line() returned: %s\n", line);
-	while ((line = get_next_line(fd2)))
-    {
-        printf("Line %d: \"%s\"\n", i, line);
-        free(line);
-        i++;
-    }
-    printf("Final get_next_line() returned: %s\n", line);
-	while ((line = get_next_line(fd3)))
-    {
-        printf("Line %d: \"%s\"\n", i, line);
-        free(line);
-        i++;
-    }
-    printf("Final get_next_line() returned: %s\n", line);
-    close(fd1);
-	//close(fd2);
-	//close(fd3);
-}*/
