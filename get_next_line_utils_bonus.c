@@ -23,22 +23,6 @@ char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
-/*void	*ft_memchr(const void *s, int c, size_t n)
-{
-	const char	*aux;
-	size_t	i;
-
-	i = 0;
-	aux = (const char *)s;
-	while (aux[i] && i < n)
-	{
-		if (aux[i] == (unsigned char) c)
-			return ((void *)&aux[i]);
-		i++;
-	}
-	return(NULL);
-}*/
-
 void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
 	size_t		i;

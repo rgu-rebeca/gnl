@@ -14,31 +14,31 @@ int main(void)
 
     if (fd1 < 0 || fd2 < 0 || fd3 < 0)
     {
-        perror("Error al abrir uno o más archivos");
+        printf("Error opening file/files");
         return (1);
     }
 
-    printf("📜 Leyendo archivos en paralelo (Bonus Test)...\n");
+    printf("Reading files in parallel...\n");
     while (1)
     {
         line = get_next_line(fd1);
         if (line)
         {
-            printf("[Archivo 1] Line %d: \"%s\"\n", i, line);
+            printf("[File 1] Line %d: \"%s\"\n", i, line);
             free(line);
         }
 
         line = get_next_line(fd2);
         if (line)
         {
-            printf("[Archivo 2] Line %d: \"%s\"\n", i, line);
+            printf("[File 2] Line %d: \"%s\"\n", i, line);
             free(line);
         }
 
         line = get_next_line(fd3);
         if (line)
         {
-            printf("[Archivo 3] Line %d: \"%s\"\n", i, line);
+            printf("[File 3] Line %d: \"%s\"\n", i, line);
             free(line);
         }
 

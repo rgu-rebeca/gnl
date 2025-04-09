@@ -1,11 +1,11 @@
 #include "get_next_line.h"
 
-static void	*read_and_store_aux(int fd,
-	char **stored, ssize_t byte_read, char **buffer)
+static void	*read_and_store_aux(int fd, char **stored,
+		ssize_t byte_read, char **buffer)
 {
 	char	*temp;
 
-	while (!ft_strchr((*stored), '\n') && (byte_read > 0))
+	while (!ft_strchr((*stored), '\n'))
 	{
 		byte_read = read (fd, (*buffer), BUFFER_SIZE);
 		if (byte_read < 0)
@@ -24,15 +24,17 @@ static void	*read_and_store_aux(int fd,
 		free(temp);
 	}
 	free(*buffer);
+	if (byte_read == 0 && (!(*stored)[0]))
+		return (free(*stored), NULL);
 	return (*stored);
 }
 
 char	*read_and_store(int fd, char *stored)
 {
-	ssize_t	byte_read;
 	char	*buffer;
+	ssize_t	byte_read;
 
-	byte_read = 1;
+	byte_read = 0;
 	buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
 		return (NULL);
@@ -49,8 +51,6 @@ char	*read_and_store(int fd, char *stored)
 	stored = read_and_store_aux(fd, &stored, byte_read, &buffer);
 	if (!stored)
 		return (NULL);
-	if (byte_read == 0 && (!stored || !stored[0]))
-		return (free(stored), NULL);
 	return (stored);
 }
 
@@ -91,7 +91,6 @@ char	*update_stored(char *stored)
 	if (!new_stored)
 	{
 		free (stored);
-		stored = NULL;
 		return (NULL);
 	}
 	free(stored);
@@ -118,55 +117,3 @@ char	*get_next_line(int fd)
 	stored = update_stored(stored);
 	return (line);
 }
-
-/*int	main(int argc, char **argv)
-{
-	int	fd;
-	char	*line;
-
-	if (argc == 1)
-		fd = 0;
-	else if (argc == 2)
-	{
-		fd = open(argv[1], O_RDONLY);
-		if (fd < 0)
-		{
-			perror("Error opening the file");
-			return 1;
-		}
-	}
-	else
-	{
-		printf("Error of number of files.");
-		return (1);
-	}
-	while ((line = get_next_line(fd)))
-	{
-			printf("%s", line);
-			free(line);
-	}
-	if (fd != 0)
-		close(fd);
-	return (0);
-}
-
-#include "get_next_line.h"
-#include <stdio.h>
-#include <fcntl.h>
-
-int main(void)
-{
-    int fd = open("test_gnl.txt", O_RDONLY);
-    char *line;
-    int i = 1;
-
-    while ((line = get_next_line(fd)))
-    {
-        printf("Line %d: \"%s\"\n", i, line);
-        free(line);
-        i++;
-    }
-    printf("Final get_next_line() returned: %s\n", line);
-    close(fd);
-}
-*/

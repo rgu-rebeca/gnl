@@ -18,7 +18,7 @@ int	main(int argc, char **argv)
 		fd = open(argv[1], O_RDONLY);
 		if (fd < 0)
 		{
-			perror("Error opening the file");
+			printf("Error opening the file");
 			return 1;
 		}
 	}
@@ -46,9 +46,9 @@ int	main(int argc, char **argv)
 #include <stdio.h>
 #include <fcntl.h>
 
-int main(void)
+int main(int argc, char **argv)
 {
-    int fd = open("test_gnl.txt", O_RDONLY);
+    int fd = open(argv[1], O_RDONLY);
     if (fd < 0)
     {
         perror("Error opening file");
