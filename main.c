@@ -1,4 +1,4 @@
-#define TEST_MODE 1
+#define TEST_MODE 2
 
 #if TEST_MODE == 1
 
@@ -54,18 +54,15 @@ int main(int argc, char **argv)
         perror("Error opening file");
         return 1;
     }
-
     char *line;
     int i = 1;
 
     while ((line = get_next_line(fd)))
     {
-        printf("Line %d: \"%s\"\n", i, line);
+        printf("%s", line);
         free(line);
         i++;
     }
-
-    printf("finished reading.\n");
     close(fd);
 
     return (0);

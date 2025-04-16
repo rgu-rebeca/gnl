@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/09 16:40:02 by rgu               #+#    #+#             */
+/*   Updated: 2025/04/10 13:37:56 by rgu              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdio.h>
 #include <fcntl.h>
 #include <stdlib.h> 
@@ -24,21 +36,21 @@ int main(void)
         line = get_next_line(fd1);
         if (line)
         {
-            printf("[File 1] Line %d: \"%s\"\n", i, line);
+            printf("[File 1] Line %d: %s\n", i, line);
             free(line);
         }
 
         line = get_next_line(fd2);
         if (line)
         {
-            printf("[File 2] Line %d: \"%s\"\n", i, line);
+            printf("[File 2] Line %d: %s\n", i, line);
             free(line);
         }
 
         line = get_next_line(fd3);
         if (line)
         {
-            printf("[File 3] Line %d: \"%s\"\n", i, line);
+            printf("[File 3] Line %d: %s\n", i, line);
             free(line);
         }
 
