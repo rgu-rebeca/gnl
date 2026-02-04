@@ -1,14 +1,12 @@
 # 42 Cursus' get_next_line (GNL)
 *Reading a line from a fd is way too tedious*
 
----
 
 ## 📌 Status
 **Finished**
 
 **Grade:** 125 / 100 ✅
 
----
 
 ## 💡 About the project
 
@@ -18,7 +16,6 @@ This project introduces an essential concept in C programming: **static variable
 
 The `get_next_line` function returns a single line each time it is called. When used inside a loop, it allows reading an entire file line by line until reaching the end of the file. The function behavior adapts to different buffer sizes defined at compile time.
 
----
 
 ## 🧠 What this project teaches
 
@@ -31,7 +28,6 @@ This project helps develop and demonstrate the following skills:
 - Writing efficient and norm-compliant C code
 - Designing functions that preserve state between calls
 
----
 
 ## 🛠️ Usage
 
@@ -44,7 +40,7 @@ Include the header file in your source code:
 
 ```c
 #include "get_next_line.h"
-
+```c
 
 When compiling, add the source files and define the buffer size:
 
