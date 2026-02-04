@@ -86,7 +86,7 @@ lseek() is forbidden
 
 The function must read as little as possible on each call
 
-###⭐ Bonus part
+### ⭐ Bonus part
 
 **The bonus version extends the functionality by:**
 
@@ -104,7 +104,7 @@ get_next_line_bonus.h
 
 get_next_line_utils_bonus.c
 
-###🧪 Testing
+### 🧪 Testing
 
 To test the function manually:
 
