@@ -121,16 +121,3 @@ You can also use third-party testers:
 
 https://github.com/Tripouille/gnlTester
 
-### 🚀 Why this project matters
-
-get_next_line is a key milestone in the 42 cursus.
-
-It marks the transition from basic C programs to more advanced concepts such as:
-
-Persistent state between function calls
-
-Careful memory management
-
-Robust interaction with system calls
-
-This project lays the groundwork for future challenges like pipex, minishell, and cub3D. puedes poner todo este contenido en formato markdown para que pueda copiarlo directamente a mi readme del proyecto?
