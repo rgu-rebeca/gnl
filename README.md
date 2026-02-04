@@ -40,7 +40,7 @@ Include the header file in your source code:
 
 ```c
 #include "get_next_line.h"
-```c
+```
 
 When compiling, add the source files and define the buffer size:
 
