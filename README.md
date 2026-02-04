@@ -62,33 +62,33 @@ NULL if there is nothing left to read or if an error occurs
 
 ### 📏 Constraints & rules
 
-Only the following functions are allowed:
+**Only the following functions are allowed:**
 
-read
+- read
 
-malloc
+- malloc
 
-free
+- free
 
 Global variables are forbidden
 
 lseek() is forbidden
 
-The function must work with:
+**The function must work with:**
 
-Regular files
+- Regular files
 
-Standard input
+- Standard input
 
-Any BUFFER_SIZE value
+- Any BUFFER_SIZE value
 
-Memory leaks are not tolerated
+- Memory leaks are not tolerated
 
 The function must read as little as possible on each call
 
 ###⭐ Bonus part
 
-The bonus version extends the functionality by:
+**The bonus version extends the functionality by:**
 
 Using only one static variable
 
@@ -96,7 +96,7 @@ Handling multiple file descriptors simultaneously
 
 This allows reading from different file descriptors alternately without losing the reading state of each one.
 
-Bonus files:
+**Bonus files:**
 
 get_next_line_bonus.c
 
